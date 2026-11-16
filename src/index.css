@@ -2574,7 +2574,7 @@ footer::before {
   text-align: center;
   text-wrap: balance;
 }
-.hero-editorial-grid { gap: 8%; }
+.hero-editorial-grid { column-gap: 8%; }
 .hero-portrait-column {
   padding: 36px 20px 28px;
   border: 1px solid #cbb17a;

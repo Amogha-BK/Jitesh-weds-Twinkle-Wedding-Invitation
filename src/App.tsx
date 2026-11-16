@@ -489,7 +489,7 @@ function RSVP() {
   const buildMessage = () => {
     const attending = data.attendance === "yes";
     const lines = [
-      `RSVP for ${config.couple.first} & ${config.couple.second}`,
+      `Reply for ${config.couple.first} & ${config.couple.second}`,
       "",
       `Name: ${data.name.trim()}`,
       `Attendance: ${attending ? "Joyfully attending" : "Sending our wishes"}`,
@@ -648,7 +648,7 @@ function RSVP() {
           />
         </label>
         <button className="button button-submit focus-ring" type="submit">
-          <Send /> Prepare RSVP
+          <Send /> Prepare reply
         </button>
         <p className="form-note">Your message opens in WhatsApp for you to review and send.</p>
       </form>
@@ -661,7 +661,7 @@ function RSVP() {
               <X />
               <span className="sr-only">Close</span>
             </Dialog.Close>
-            <Dialog.Title>Review your RSVP</Dialog.Title>
+            <Dialog.Title>Review your reply</Dialog.Title>
             <Dialog.Description>
               {config.optional.whatsappHostNumber
                 ? "Review your message, then continue to WhatsApp. You will send it yourself."
@@ -854,7 +854,6 @@ export default function App() {
               <p className="family-blessing">{config.blessingLine}</p>
               <div className="invitation-regards">
                 <div>
-                  <h3>R.S.V.P.</h3>
                   <p>{config.rsvp}</p>
                 </div>
                 <div>
