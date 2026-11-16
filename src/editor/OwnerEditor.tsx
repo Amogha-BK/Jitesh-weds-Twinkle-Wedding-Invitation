@@ -540,6 +540,7 @@ export function OwnerEditor() {
                     {topField("Memorial wording (optional)", "memorialLine", "textarea")}
                     {topField("Family / home address (optional)", "homeAddress", "textarea")}
                     {Object.entries({
+                      devotionalLine: "Devotional invocation",
                       heroMessage: "Hero invitation message",
                       heroFootnote: "Hero blessing line",
                       celebrationsIntro: "Celebrations introduction",
@@ -548,7 +549,7 @@ export function OwnerEditor() {
                       field(
                         label,
                         `wording.${key}`,
-                        draft.wording[key as keyof typeof draft.wording],
+                        draft.wording[key as keyof typeof draft.wording] ?? "",
                         (v) => ({ ...draft, wording: { ...draft.wording, [key]: v } }),
                         "textarea",
                       ),

@@ -1,5 +1,5 @@
 /** Versioned customer data. No React, storage, or provider dependencies. */
-export const eventKinds = ["mehndi", "haldi", "sangeet", "wedding", "reception"] as const;
+export const eventKinds = ["mehndi", "haldi", "engagement", "sangeet", "mandvo-mameru", "wedding", "reception"] as const;
 export type EventKind = (typeof eventKinds)[number];
 export type WeddingEvent = {
   id: EventKind;
@@ -30,6 +30,7 @@ export type WeddingRecord = {
     groomGrandparents: string;
   };
   memorialLine: string;
+  memorialNames?: string[];
   invitationLine: string;
   blessingLine: string;
   homeAddress: string;
@@ -38,6 +39,7 @@ export type WeddingRecord = {
   wishesFrom: string;
   venue: { name: string; address: string; mapUrl: string };
   contacts: string[];
+  contactNames?: string[];
   optional: {
     travel: string;
     stay: string;
@@ -47,6 +49,7 @@ export type WeddingRecord = {
   };
   media: { portraitUrl: string; portraitAlt: string; venueArtworkUrl: string };
   wording: {
+    devotionalLine?: string;
     heroMessage: string;
     heroFootnote: string;
     celebrationsIntro: string;
@@ -272,6 +275,9 @@ export function validateRecord(value: unknown): WeddingRecord {
       groomGrandparents: text(couple, "groomGrandparents", "couple."),
     },
     memorialLine: text(root, "memorialLine", ""),
+    memorialNames: Array.isArray(root.memorialNames)
+      ? root.memorialNames.filter((name): name is string => typeof name === "string" && name.trim().length > 0).slice(0, 6).map((name) => name.trim().slice(0, 160))
+      : [],
     invitationLine: text(root, "invitationLine", "", true),
     blessingLine: text(root, "blessingLine", ""),
     homeAddress: text(root, "homeAddress", ""),
@@ -285,6 +291,9 @@ export function validateRecord(value: unknown): WeddingRecord {
     },
     contacts: Array.isArray(contacts)
       ? contacts.filter((v): v is string => typeof v === "string")
+      : [],
+    contactNames: Array.isArray(root.contactNames)
+      ? root.contactNames.slice(0, 6).map((name) => typeof name === "string" ? name.trim().slice(0, 120) : "")
       : [],
     optional: {
       travel: text(optional, "travel", "optional."),
@@ -313,6 +322,7 @@ export function validateRecord(value: unknown): WeddingRecord {
       ),
     },
     wording: {
+      devotionalLine: text(wording, "devotionalLine", "wording."),
       heroMessage: text(wording, "heroMessage", "wording."),
       heroFootnote: text(wording, "heroFootnote", "wording."),
       celebrationsIntro: text(wording, "celebrationsIntro", "wording."),
@@ -374,7 +384,7 @@ export function toTemplateConfig(record: WeddingRecord) {
     celebrations: record.celebrations.map((e) => ({
       ...e,
       dateLabel: `${dateParts(e.start).weekday}, ${dateParts(e.start).full}`,
-      timeLabel: timeLabel(e.start),
+      timeLabel: `${timeLabel(e.start)}${e.id === "mandvo-mameru" ? " onwards" : ""}`,
       calendarTitle: `${record.couple.first} & ${record.couple.second} · ${e.shortName}`,
     })),
   };

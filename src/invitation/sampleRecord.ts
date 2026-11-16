@@ -4,6 +4,8 @@ export function sampleEvent(id: EventKind, weddingDate: string): WeddingEvent {
   const label = {
     mehndi: "Mehendi",
     haldi: "Haldi",
+    engagement: "Engagement",
+    "mandvo-mameru": "Mandvo and Mameru",
     sangeet: "Sangeet",
     wedding: "Wedding",
     reception: "Reception",

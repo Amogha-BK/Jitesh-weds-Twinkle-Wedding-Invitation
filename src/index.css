@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+Devanagari:wght@500;600&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -832,7 +832,7 @@ textarea:focus-visible {
 }
 .venue-artwork {
   min-height: 530px;
-  background: url("/assets/shristi-harsh-celebration.png") center / cover;
+  background: url("/assets/wedding-floral-arch-v2.webp") center / cover;
 }
 .venue-content {
   padding: 48px 36px;
@@ -2791,7 +2791,7 @@ footer { padding-top: 205px; }
   box-shadow: 0 18px 50px #6848320c, inset 0 0 0 10px #f5ead4, inset 0 0 0 11px #d8c49c;
 }
 .family-section::before {
-  content: 'S & H';
+  content: var(--family-initials);
   top: 28px;
   left: calc(50% - 38px);
   width: 76px;
@@ -2873,7 +2873,7 @@ footer { padding-top: 205px; }
   pointer-events: none;
 }
 .family-section::before {
-  content: 'S & H';
+  content: var(--family-initials);
   top: 64px;
   left: calc(50% - 43px);
   width: 86px;
@@ -2905,4 +2905,16 @@ footer { padding-top: 205px; }
   .family-section { padding-top: 155px; }
   .family-section::before { top: 44px; }
   .family-section::after { height: 230px; background-size: 135% auto; }
+}
+
+/* Named family contacts stay readable on narrow screens. */
+.contact-number { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.contact-name { font-size: 16px; line-height: 1.5; }
+
+.ganesh-invocation:lang(hi) {
+  font-family: "Noto Serif Devanagari", "Nirmala UI", serif;
+}
+.family-section .family-memory strong {
+  font-weight: 700;
+  color: #783c48;
 }

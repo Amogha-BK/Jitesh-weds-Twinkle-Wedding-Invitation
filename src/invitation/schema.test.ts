@@ -21,15 +21,16 @@ test("sample data survives a JSON round trip and derives coherent invitation dat
   assert.equal(new Date(config.celebrations[0].start).toISOString(), "2027-02-13T13:30:00.000Z");
   assert.equal(config.display.celebrationsLabel, "13 & 14 February 2027 · Jaipur");
 });
-test("all five supported functions render through the same data adapter", () => {
-  const sample = createSampleRecord();
-  sample.celebrations = eventKinds.map((id) => sampleEvent(id, sample.weddingDate));
-  const config = toTemplateConfig(validateRecord(sample));
-  assert.deepEqual(
-    config.celebrations.map((e) => e.id),
-    eventKinds,
-  );
-  assert.ok(config.celebrations.every((e) => e.calendarTitle.includes("Aanya & Vivaan")));
+test("every supported function renders through the same data adapter", () => {
+  for (const id of eventKinds) {
+    const sample = createSampleRecord();
+    sample.celebrations = [sampleEvent(id, sample.weddingDate)];
+    if (id !== "wedding") sample.celebrations.push(sampleEvent("wedding", sample.weddingDate));
+    const config = toTemplateConfig(validateRecord(sample));
+    assert.equal(config.celebrations[0].id, id);
+    assert.ok(config.celebrations.every((e) => e.calendarTitle.includes("Aanya & Vivaan")));
+    if (id === "mandvo-mameru") assert.match(config.celebrations[0].timeLabel, /onwards$/);
+  }
 });
 test("optional fields can be omitted without leaking previous customer defaults", () => {
   const sample = createSampleRecord() as unknown as Record<string, unknown>;

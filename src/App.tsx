@@ -343,6 +343,14 @@ function SectionHeading({ eyebrow, children }: { eyebrow?: string; children: Rea
   );
 }
 
+function MemorialText({ line, names = [] }: { line: string; names?: string[] }) {
+  if (!names.length) return <>{line}</>;
+  const pattern = names.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+  return <>{line.split(new RegExp(`(${pattern})`, "g")).map((part, index) =>
+    names.includes(part) ? <strong key={index}>{part}</strong> : part,
+  )}</>;
+}
+
 function EventLocation({ event, className }: { event: Celebration; className: string }) {
   return (
     <div className={`event-location ${className}`}>
@@ -791,7 +799,8 @@ export default function App() {
                 <p className="hero-art-caption">The beginning of our beautiful forever</p>
               </div>
               <div className="hero-inner">
-                <p className="ganesh-invocation">॥ Shri Ganeshaya Namah ॥</p>
+                <p className="ganesh-invocation" lang="hi">॥ श्री गणेशाय नमः ॥</p>
+                {config.wording.devotionalLine && <p className="ganesh-invocation" lang="hi">{config.wording.devotionalLine}</p>}
                 <p className="eyebrow">Together with our families</p>
                 <h1 ref={invitationHeading} tabIndex={-1}>
                   <span className="hero-name">{config.couple.first}</span>
@@ -818,7 +827,7 @@ export default function App() {
             </a>
           </section>
 
-          <section className="family-section" id="invitation">
+          <section className="family-section" id="invitation" style={{ "--family-initials": `"${config.display.initials.join(" & ")}"` } as React.CSSProperties}>
             <BotanicalSprig className="family-sprig" />
             <motion.div
               initial={reducedMotion ? false : { opacity: 0, y: 24 }}
@@ -828,18 +837,18 @@ export default function App() {
               <SectionHeading eyebrow="With love & blessings">
                 An invitation from our hearts
               </SectionHeading>
-              <p className="family-memory">{config.memorialLine}</p>
+              <p className="family-memory"><MemorialText line={config.memorialLine} names={config.memorialNames} /></p>
               <p>{config.invitationLine}</p>
               <div className="invitation-families" aria-label="The couple and their families">
                 <div>
                   <h2>{config.couple.first}</h2>
-                  <p>{config.couple.brideParents}</p>
+                  <p>{config.couple.groomParents}</p>
+                  {config.couple.groomGrandparents && <p>{config.couple.groomGrandparents}</p>}
                 </div>
                 <span className="family-weds">weds</span>
                 <div>
                   <h2>{config.couple.second}</h2>
-                  <p>{config.couple.groomGrandparents}</p>
-                  <p>{config.couple.groomParents}</p>
+                  <p>{config.couple.brideParents}</p>
                 </div>
               </div>
               <p className="family-blessing">{config.blessingLine}</p>
@@ -937,15 +946,12 @@ export default function App() {
               <div className="family-contacts">
                 <div className="contact-numbers" aria-label="Family contact numbers">
                   <span className="contact-label">Contact:</span>
-                  {config.contacts.map((number) => (
+                  {config.contacts.map((number, index) => (
                     <span key={number} className="contact-number">
-                      {number.length === 10 ? (
-                        <a className="focus-ring" href={`tel:+91${number}`}>
+                      {config.contactNames?.[index] && <span className="contact-name">{config.contactNames[index]}</span>}
+                        <a className="focus-ring" href={`tel:${number.replace(/\D/g, "").length === 10 ? "+91" : "+"}${number.replace(/\D/g, "")}`}>
                           <Phone size={18} aria-hidden="true" /> {number}
                         </a>
-                      ) : (
-                        number
-                      )}
                     </span>
                   ))}
                 </div>
