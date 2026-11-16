@@ -1,6 +1,9 @@
 {
   "title": "Jitesh weds Twinkle | Wedding Invitation",
   "description": "With the blessings of Jay Malan Maa, the Waghmar Family invites you to celebrate Jitesh and Twinkle: Engagement on 12 December, Sangeet Night on 13 December, and Mandvo and Mameru and Wedding on 14 December 2026 in Kutch, Gujarat.",
+  "openGraph": {
+    "image": "/assets/jitesh-twinkle-wedding-share-cover-v1.jpg"
+  },
   "robots": { "index": false },
   "accessibility": { "addBypassLinks": false, "ignoreReducedMotion": false }
 }

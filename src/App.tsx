@@ -7,6 +7,7 @@ import {
   Clock,
   Flower2,
   ArrowDown,
+  ChevronsUp,
   RotateCcw,
   Phone,
   MapPin,
@@ -697,6 +698,7 @@ export default function App() {
   const config = useInvitation();
   const [opened, setOpened] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const invitationHeading = useRef<HTMLHeadingElement>(null);
   const reducedMotion = useReducedMotion();
   const weddingAudio = useRef<HTMLAudioElement>(null);
@@ -708,6 +710,16 @@ export default function App() {
       invitationHeading.current?.focus({ preventScroll: true });
     }
   }, [revealed]);
+
+  useEffect(() => {
+    if (!revealed || hasScrolled) return;
+    const dismissScrollHint = () => {
+      if (window.scrollY > 40) setHasScrolled(true);
+    };
+    dismissScrollHint();
+    window.addEventListener("scroll", dismissScrollHint, { passive: true });
+    return () => window.removeEventListener("scroll", dismissScrollHint);
+  }, [revealed, hasScrolled]);
 
   useEffect(() => {
     if (revealed) return;
@@ -776,6 +788,32 @@ export default function App() {
       >
         <Navigation />
         <MusicControl canPlay={opened} audio={weddingAudio} />
+        <AnimatePresence>
+          {revealed && !hasScrolled && (
+            <motion.button
+              key="first-scroll-hint"
+              type="button"
+              className="first-scroll-hint focus-ring"
+              initial={{ opacity: 0, y: reducedMotion ? 0 : 10 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.6 } }}
+              exit={{ opacity: 0, y: reducedMotion ? 0 : 6, transition: { duration: 0.2 } }}
+              onClick={() => {
+                setHasScrolled(true);
+                window.scrollBy({
+                  top: Math.round(window.innerHeight * 0.65),
+                  behavior: reducedMotion ? "instant" : "smooth",
+                });
+              }}
+            >
+              <span className="scroll-hint-touch">Swipe up to explore</span>
+              <span className="scroll-hint-desktop">Scroll to explore</span>
+              <span className="scroll-hint-icon" aria-hidden="true">
+                <ChevronsUp className="scroll-hint-touch" size={18} />
+                <ArrowDown className="scroll-hint-desktop" size={17} />
+              </span>
+            </motion.button>
+          )}
+        </AnimatePresence>
         <main>
           <a className="skip-to-content focus-ring" href="#celebrations">
             Skip to celebration details

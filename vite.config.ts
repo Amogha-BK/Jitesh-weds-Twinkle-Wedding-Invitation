@@ -92,7 +92,20 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
   // Imported HTML keeps its own favicon. New Makes use PNG because Google Search does not
   // support SVG favicons, even though browsers do.
   const favicon = config.icons?.icon ?? "/favicon.png";
-  const socialImage = config.openGraph?.image ?? "";
+  // Sharing crawlers read the built HTML and need an absolute image URL.
+  // SITE_URL can override the deployment domain when using a custom domain.
+  const deploymentUrl =
+    process.env.SITE_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL ||
+    process.env.FIGMA_PUBLIC_URL;
+  const siteUrl = deploymentUrl
+    ? new URL(/^https?:\/\//i.test(deploymentUrl) ? deploymentUrl : `https://${deploymentUrl}`)
+    : undefined;
+  const configuredSocialImage = config.openGraph?.image ?? "";
+  const socialImage = configuredSocialImage && siteUrl
+    ? new URL(configuredSocialImage, siteUrl).href
+    : configuredSocialImage;
   const language = sanitizeHtmlValue(config.language) || "en";
   const googleAnalyticsId = sanitizeHtmlValue(config.analytics?.googleAnalyticsId);
   const headStart = config.customScripts?.headStart ?? "";
@@ -132,6 +145,13 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
         result = replaceHtmlCommentSlot(result, "figma:body-end", bodyEnd);
 
         const tags: HtmlTagDescriptor[] = [];
+        if (siteUrl) {
+          tags.push({
+            tag: "meta",
+            attrs: { property: "og:url", content: siteUrl.href },
+            injectTo: "head",
+          });
+        }
         if (description) {
           tags.push({
             tag: "meta",

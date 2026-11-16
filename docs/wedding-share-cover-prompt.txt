@@ -1,0 +1,8 @@
+Generated using the built-in image generation tool.
+
+Use case: ads-marketing.
+Asset type: finished wedding invitation social sharing cover for WhatsApp, wide landscape 1200 x 630 or same 1.905:1 aspect ratio.
+Primary request: Generate a polished cover for Jitesh and Twinkle's wedding using reference image 1 as composition and stationery-design inspiration and reference image 2 as the couple illustration reference. Adapt the cover to this invitation's warm ivory, sandstone brown and antique gold palette while preserving teal lehenga and navy sherwani on the illustrated couple.
+Composition: left 40 percent holds the full illustrated couple within a delicate double-line gold Indian arch. Right 60 percent holds clean elegant lettering, large readable couple names and restrained supporting copy. Warm ivory paper backdrop, very subtle fine paper texture, tiny gold star accents. Generous breathing room, all important content inside a 7 percent safe margin. Sophisticated fine printed invitation feel.
+Text (verbatim), only this text: "TOGETHER WITH OUR FAMILIES" at top, "Jitesh" then a small gold "&" then "Twinkle" in large elegant dark sandstone calligraphy, followed by "Two hearts, one journey.", followed by "14 December 2026" and "Kutch, Gujarat", then a small "Wedding Invitation".
+Constraints: reference images are style and subject guidance, not edit targets. Names spelled exactly Jitesh and Twinkle. Date exactly 14 December 2026. Do not include Shristi, Harsh, Indirapuram, RSVP, browser chrome, website controls, buttons, watermarks, or extra words. The final cover must be a flat finished image, not a photographed card mockup. No transparent background.

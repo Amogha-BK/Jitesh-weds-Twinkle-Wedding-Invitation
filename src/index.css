@@ -1714,6 +1714,58 @@ footer .monogram {
 .hero-scroll-cue:hover svg {
   transform: translateY(4px);
 }
+
+/* A first-visit hint stays within the viewport until the guest starts scrolling. */
+.first-scroll-hint {
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  min-height: 44px;
+  margin-inline: auto;
+  padding: 10px 18px;
+  border: 1px solid var(--gold-light);
+  border-radius: 999px;
+  background: rgb(255 249 237 / 0.96);
+  color: var(--teal);
+  box-shadow: 0 4px 22px #68483218;
+  backdrop-filter: blur(12px);
+  font: 600 13px/1.5 var(--font-body);
+}
+.scroll-hint-icon {
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+}
+.first-scroll-hint .scroll-hint-touch {
+  display: none;
+}
+@media (hover: none) and (pointer: coarse) {
+  .first-scroll-hint {
+    --scroll-hint-offset: -3px;
+  }
+  .first-scroll-hint .scroll-hint-touch {
+    display: block;
+  }
+  .first-scroll-hint .scroll-hint-desktop {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-hint-icon {
+    animation: scroll-hint-nudge 2s ease-in-out 3;
+  }
+  @keyframes scroll-hint-nudge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(var(--scroll-hint-offset, 3px)); }
+  }
+}
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .wedding-function-card {
     transition:
