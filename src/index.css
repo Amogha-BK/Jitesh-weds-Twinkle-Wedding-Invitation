@@ -457,7 +457,8 @@ textarea:focus-visible {
 }
 .invitation-regards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  max-width: 560px;
   gap: 25px;
   margin: 30px auto;
 }
@@ -1679,6 +1680,12 @@ footer .monogram {
   max-width: 450px;
   margin: 0;
 }
+.wedding-hashtag {
+  margin: 0 0 18px;
+  color: var(--gold);
+  font: 600 clamp(14px, 1.4vw, 16px)/1.6 var(--font-body);
+  letter-spacing: 0.04em;
+}
 .cinematic-hero .hero-date {
   justify-content: flex-start;
   gap: 8px 12px;
@@ -1720,33 +1727,33 @@ footer .monogram {
   position: fixed;
   inset-inline: 0;
   bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  z-index: 45;
+  z-index: 90;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   width: max-content;
   max-width: calc(100% - 32px);
-  min-height: 44px;
+  min-height: 48px;
   margin-inline: auto;
-  padding: 10px 18px;
+  padding: 12px 20px;
   border: 1px solid var(--gold-light);
   border-radius: 999px;
-  background: rgb(255 249 237 / 0.96);
-  color: var(--teal);
-  box-shadow: 0 4px 22px #68483218;
+  background: var(--teal);
+  color: var(--paper);
+  box-shadow: 0 6px 24px #48312135;
   backdrop-filter: blur(12px);
-  font: 600 13px/1.5 var(--font-body);
+  font: 700 14px/1.5 var(--font-body);
 }
 .scroll-hint-icon {
   display: grid;
   place-items: center;
-  color: var(--gold);
+  color: var(--gold-light);
 }
 .first-scroll-hint .scroll-hint-touch {
   display: none;
 }
-@media (hover: none) and (pointer: coarse) {
+@media (max-width: 600px), (hover: none) and (pointer: coarse) {
   .first-scroll-hint {
     --scroll-hint-offset: -3px;
   }

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   CalendarPlus,
@@ -713,10 +714,10 @@ export default function App() {
 
   useEffect(() => {
     if (!revealed || hasScrolled) return;
+    const initialScrollY = Math.max(0, window.scrollY);
     const dismissScrollHint = () => {
-      if (window.scrollY > 40) setHasScrolled(true);
+      if (window.scrollY - initialScrollY > 100) setHasScrolled(true);
     };
-    dismissScrollHint();
     window.addEventListener("scroll", dismissScrollHint, { passive: true });
     return () => window.removeEventListener("scroll", dismissScrollHint);
   }, [revealed, hasScrolled]);
@@ -788,14 +789,14 @@ export default function App() {
       >
         <Navigation />
         <MusicControl canPlay={opened} audio={weddingAudio} />
-        <AnimatePresence>
+        {createPortal(<AnimatePresence>
           {revealed && !hasScrolled && (
             <motion.button
               key="first-scroll-hint"
               type="button"
               className="first-scroll-hint focus-ring"
               initial={{ opacity: 0, y: reducedMotion ? 0 : 10 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.6 } }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.25 } }}
               exit={{ opacity: 0, y: reducedMotion ? 0 : 6, transition: { duration: 0.2 } }}
               onClick={() => {
                 setHasScrolled(true);
@@ -806,14 +807,14 @@ export default function App() {
               }}
             >
               <span className="scroll-hint-touch">Swipe up to explore</span>
-              <span className="scroll-hint-desktop">Scroll to explore</span>
+              <span className="scroll-hint-desktop">Scroll down to explore</span>
               <span className="scroll-hint-icon" aria-hidden="true">
                 <ChevronsUp className="scroll-hint-touch" size={18} />
                 <ArrowDown className="scroll-hint-desktop" size={17} />
               </span>
             </motion.button>
           )}
-        </AnimatePresence>
+        </AnimatePresence>, document.body)}
         <main>
           <a className="skip-to-content focus-ring" href="#celebrations">
             Skip to celebration details
@@ -845,6 +846,7 @@ export default function App() {
                   <span className="hero-ampersand">&amp;</span>
                   <span className="hero-name">{config.couple.second}</span>
                 </h1>
+                <p className="wedding-hashtag">#JiTPyaarKi</p>
                 <p className="hero-invitation-line">
                   {config.wording.heroMessage}
                 </p>
@@ -892,11 +894,10 @@ export default function App() {
               <p className="family-blessing">{config.blessingLine}</p>
               <div className="invitation-regards">
                 <div>
-                  <p>{config.rsvp}</p>
-                </div>
-                <div>
-                  <h3>With best wishes from:</h3>
-                  <p>{config.wishesFrom}</p>
+                  <h3>With Love from Late Pragji Bhimji Suthar Family</h3>
+                  <p>
+                    <em>We look forward to welcoming you and celebrating this beautiful beginning together.</em>
+                  </p>
                 </div>
               </div>
               <Monogram />
